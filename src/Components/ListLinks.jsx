@@ -11,7 +11,11 @@ export default class ListLinks extends React.Component {
             editTitle: "", editUrl: "", editId: "", message: ""
         };
     }
-
+    Sort=()=> {
+        let links = this.state.links;
+        links.sort((a, b) => a.title.localeCompare(b.title));
+        this.setState({ links: links });
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         const link = { id: Math.random() * 10, title: this.state.title, url: this.state.url };
@@ -66,6 +70,7 @@ export default class ListLinks extends React.Component {
                 <div>
 
                     <ul>
+                        <button onClick={this.Sort}>Sort</button>
                         {this.state.links.map(link => (
                             <li key={link.id}>
                                 <a href={link.url}>{link.title}</a>

@@ -8,7 +8,7 @@ export default class ListLinks extends React.Component {
         super(props);
         this.state = {
             links: [], title: "", url: "", show: true,
-            editTitle: "", editUrl: "", editId: ""
+            editTitle: "", editUrl: "", editId: "", message: ""
         };
     }
 
@@ -23,8 +23,17 @@ export default class ListLinks extends React.Component {
         this.setState({ title: e });
     }
     handleUrl = (e) => {
-        this.setState({ url: e });
+        let regex = /^(http|https):\/\/[^ "]+$/;
+        if (regex.test(e)) {
+            this.setState({ url: e });
+            this.setState({ message: "" });
+        }
+        else
+        {
+            this.setState({ message: "Invalid URL" });
+        }
     }
+
     handleEditTitle = (e) => {
         this.setState({ editTitle: e });
     }
@@ -75,7 +84,10 @@ export default class ListLinks extends React.Component {
                 <div>
                     <form onSubmit={this.handleSubmit}>
                         <input value={this.state.title} onChange={e => this.handleTitle(e.target.value)} type="text" placeholder="title" />
+                        <p></p>
                         <input value={this.state.url} onChange={e => this.handleUrl(e.target.value)} type="text" placeholder="url" />
+                        <span style={{ color: 'red' }}>{this.state.message}</span>
+                        <p></p>
                         <button type="submit">Add</button>
                     </form>
                 </div>
